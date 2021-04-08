@@ -35,9 +35,8 @@ notes:
     - The main issue is that the "<package>.config reconfigure" step for many packages will first reset the debconf database (overriding changes made
       by this module) by checking the on-disk configuration. If this is the case for your package then dpkg-reconfigure will effectively ignore changes
       made by debconf.
-    - However as dpkg-reconfigure finally invokes: <---- This line onward are WIP pending a solution.
-    - export DPKG_MAINTSCRIPT_PACKAGE=<package> /usr/share/debconf/frontend /var/lib/dpkg/info/<package>.postinst configure <version> 
-    - to actually configure the package this may be a suitable trigger.
+    - However as dpkg-reconfigure only executes the "<package>.config" step if the file exists, it is possible to move it out of the way before executing
+      "dpkg-reconfigure -f noninteractive <package>". This seems to be compliant with Debian policy for the .config file.
 
 requirements:
 - debconf
